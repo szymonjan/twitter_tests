@@ -73,7 +73,7 @@ test_data:
   #InsysGO stage
   url: https://twitter.com/
   #User with lower package
-  login: usertest1@insys.pl
+  login: usertest1@interia.pl
   password: qwer1234
 
 # Default wait timeout settings. Timeout settings are specified in seconds.

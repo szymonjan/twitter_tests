@@ -94,6 +94,9 @@ class BasePage(PageObject):
                 time.sleep(1)
                 i+=1
 
+    def confirm_alert(self):
+        Alert(self.webdriver).accept()
+
     @staticmethod
     def get_current_date(self):
         """ Returns current date in format 'DD.MM'"""
