@@ -1,0 +1,3 @@
+{
+  "tests/testcases/twitter_tests.py::LoginTests::test_sending_tweet": true
+}
