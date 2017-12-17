@@ -3,11 +3,11 @@
 # and methods used to interact with an webpage elements.
 
 from tests.pages.base_page import BasePage
-
+from selenium.webdriver.common.keys import Keys
 
 class LoginPage(BasePage):
 
-    """ This is page will be used only for log in """
+    """ This page will be used only for log in """
 
     #All locators are specified by XPATH and are defined  as class variables
     LOGIN_FIELD = "//input[@id='signin-email']"
@@ -32,19 +32,22 @@ class LoginPage(BasePage):
 
 class MainPage(BasePage):
 
-    """ This is a main page. """
+    """ This is a main page for logged in user. It displays most important
+    content. """
 
     #All locators are specified by XPATH and are defined as the class variables
     TWEET_BOX = "//div[@id='tweet-box-home-timeline']"
     SEND_TWEET_BTN = "//button[@class='tweet-action EdgeButton EdgeButton--primary js-tweet-btn']/span[1]"
     TWEET_COUNT = "//span[@class='ProfileCardStats-statValue']"
     TWEETS_LIST = "//p[@class='TweetTextSize  js-tweet-text tweet-text']"
+    SEARCH_FIELD = "//input[@class='search-input']"
 
     def __init__(self, webdriver, *args, **kwargs):
         super().__init__(webdriver, *args, **kwargs)
 
         self.tweet_box = self.find_clickable_element(self.TWEET_BOX)
         self.tweet_count = self.find_visible_element(self.TWEET_COUNT)
+        self.search_field = self.find_clickable_element(self.SEARCH_FIELD)
 
     def send_tweet(self, text):
         self.tweet_box.send_keys(text)
@@ -56,6 +59,27 @@ class MainPage(BasePage):
         return self.tweet_count.text
 
     def get_tweet_text(self):
-        """ Returns the text of a tweeted message
-            It returns the first tweet from all tweets"""
+        """ Returns the latest tweeted tweeted message """
         return self.get_element_from_list(self.TWEETS_LIST, 0)
+
+    def search(self, text):
+        self.search_field.send_keys(text)
+        self.search_field.send_keys(Keys.ENTER)
+
+
+class SearchResultsPage(BasePage):
+
+    """ This page displays results for a searched phrase """
+    SEARCH_RESULTS = "//a[contains(@class,'fullname')]"
+
+    def __init__(self, webdriver, *args, **kwargs):
+        super().__init__(webdriver, *args, **kwargs)
+
+    def get_search_results(self):
+        """ Method returns a list of names that are results of searching phrase """
+        results_list = []
+        results_elements = self.find_list_of_elements(self.SEARCH_RESULTS)
+        for result in results_elements:
+            results_list.append(result.text)
+
+        return results_list

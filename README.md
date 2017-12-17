@@ -35,7 +35,7 @@ This repositorium contains automated tests for Twitter webpage (https://twitter.
 
 ```pip install -r requirements.txt```
 
-3. Istall modified WTFramework 
+3. Install modified WTFramework from github
 
 ```pip install git+https://github.com/szymonjan/wtframework_mod.git```
 
