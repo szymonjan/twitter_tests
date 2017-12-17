@@ -25,7 +25,7 @@ class TwitterTests(WTFBaseTest):
     def tearDown(self):
         do_and_ignore(lambda: WTF_WEBDRIVER_MANAGER.close_driver())
 
-    def sending_tweet(self):
+    def test_sending_tweet(self):
         # Main page object initialization
         main_page = MainPage(self.driver)
 
@@ -41,7 +41,7 @@ class TwitterTests(WTFBaseTest):
         do_until(lambda: self.assertEqual(text_to_send, sended_tweet),
                  message="Text is incorrect!")
 
-    def profile_searching(self):
+    def test_profile_searching(self):
         # Search for 'Andrzej Duda' phrase
         MainPage(self.driver).search("Andrzej Duda")
 
@@ -57,7 +57,7 @@ class TwitterTests(WTFBaseTest):
 
         # Go to the user's followed profile page and check if Donald Tusk
         # is being followed
-        sleep(2) # I know it's ugly :P
+        sleep(2)  # I know it's ugly :P
         self.driver.get("https://twitter.com/usertest344/following")
         followed_profiles_list = FollowedPage(self.driver).get_followed_profiles()
         do_until(lambda: self.assertIn("Donald Tusk", followed_profiles_list),

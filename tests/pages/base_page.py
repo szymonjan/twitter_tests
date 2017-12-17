@@ -77,6 +77,6 @@ class BasePage(PageObject):
         Alert(self.webdriver).accept()
 
     @staticmethod
-    def get_current_date(self):
+    def get_current_date():
         """ Returns current date in format 'DD.MM'"""
         return datetime.date.today().strftime("%d.%m")
