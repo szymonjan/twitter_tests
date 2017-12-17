@@ -1,8 +1,8 @@
 #### General info
 This repositorium contains automated tests for Twitter webpage (https://twitter.com/). Three features are being tested:
 - sending a tweet
-- searching for people to follow
-- following people 
+- searching for a twitter profile
+- following profile
 
 #### Project organization
 

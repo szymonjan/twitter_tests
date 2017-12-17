@@ -77,9 +77,36 @@ class SearchResultsPage(BasePage):
 
     def get_search_results(self):
         """ Method returns a list of names that are results of searching phrase """
-        results_list = []
-        results_elements = self.find_list_of_elements(self.SEARCH_RESULTS)
-        for result in results_elements:
-            results_list.append(result.text)
+        return self.get_list_of_names(self.SEARCH_RESULTS)
 
-        return results_list
+class ProfilePage(BasePage):
+
+    """ This page displays all information about a single twitter profile """
+
+    FOLLOW_BTN = "//div[@data-name='Donald Tusk']//button[contains(@class, ' follow-text')]"
+
+    def __init__(self, webdriver, *args, **kwargs):
+        super().__init__(webdriver, *args, **kwargs)
+
+    def follow_profile(self):
+        follow_btn = self.find_clickable_element(self.FOLLOW_BTN)
+        follow_btn.click()
+
+class FollowedPage(BasePage):
+
+    """ This page displays all information about a single twitter profile """
+
+    FOLLOWED_PROFILES = "//div[@class='ProfileCard-userFields']//a[contains(@class, 'fullname')]"
+    ISFOLLOWED_BTN = "//div[@data-name='Donald Tusk']//button[contains(@class, 'following-text')]"
+    UNFOLLOW_BTN = "//div[@data-name='Donald Tusk']//button[contains(@class, 'unfollow-text')]"
+
+    def __init__(self, webdriver, *args, **kwargs):
+        super().__init__(webdriver, *args, **kwargs)
+
+    def unfollow_profile(self):
+        """ Unfollow profile by mowing mouse to a button then click on it """
+        self.find_clickable_element(self.ISFOLLOWED_BTN).click()
+
+    def get_followed_profiles(self):
+        """ Method returns list of followed profiles names """
+        return self.get_list_of_names(self.FOLLOWED_PROFILES)

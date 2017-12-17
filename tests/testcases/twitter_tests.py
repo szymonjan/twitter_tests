@@ -5,7 +5,8 @@ from wtframework.wtf.web.webdriver import WTF_WEBDRIVER_MANAGER
 from wtframework.wtf.utils.test_utils import do_and_ignore
 from wtframework.wtf.utils.wait_utils import do_until
 
-from tests.pages.twitter_pages import LoginPage, MainPage, SearchResultsPage
+from tests.pages.twitter_pages import LoginPage, MainPage, SearchResultsPage, \
+    ProfilePage, FollowedPage
 import tests.testdata.settings as data
 
 from random import randint
@@ -34,20 +35,36 @@ class TwitterTests(WTFBaseTest):
         main_page.send_tweet(text_to_send)
 
         # Check that sended tweet is correct
-        # A retry wrapper that'll keep performing the assertion until it succeeds.
-        # If not it throws a failure message
+        # Do_until is a retry wrapper that'll keep performing the assertion until it succeeds.
+        # If not it raise an error message
         sended_tweet = main_page.get_tweet_text
         do_until(lambda: self.assertEqual(text_to_send, sended_tweet),
                  message="Text is incorrect!")
 
-    def people_searching(self):
+    def profile_searching(self):
         # Search for 'Andrzej Duda' phrase
         MainPage(self.driver).search("Andrzej Duda")
 
         # Find if the searched phrase is in the results
         search_results_list = SearchResultsPage(self.driver).get_search_results()
         do_until(lambda: self.assertIn("Andrzej Duda", search_results_list),
-                 message="Text wasn't found in search results!")
+                 message="Text wasn't found!")
+
+    def test_following_profile(self):
+        # Go directly to Donald Tusk profile and follow
+        self.driver.get("https://twitter.com/eucopresident")
+        ProfilePage(self.driver).follow_profile()
+
+        # Go to the user's followed profile page and check if Donald Tusk
+        # is being followed
+        sleep(2) # I know it's ugly :P
+        self.driver.get("https://twitter.com/usertest344/following")
+        followed_profiles_list = FollowedPage(self.driver).get_followed_profiles()
+        do_until(lambda: self.assertIn("Donald Tusk", followed_profiles_list),
+                 message="Profile wasn't found!")
+
+        # Clean up by unfollowing Donald Tusk profile
+        FollowedPage(self.driver).unfollow_profile()
 
 
 if __name__ == '__main__':
