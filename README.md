@@ -6,7 +6,7 @@ This repositorium contains automated tests for Twitter webpage (https://twitter.
 
 #### Project organization
 
-	/twitter_tests
+	/project
 		/assets - place non-code files used tests (e.g. drivers)
 		/configs - location of config files.
 		/data - data files (like CSV files).
